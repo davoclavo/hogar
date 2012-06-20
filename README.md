@@ -3,12 +3,25 @@
 
 dot file configurations
 
-Initialize the submodules:
+Installation
+------------
+(based on sorin's instructions)
 
-    git submodule update --init --recursive
+  1. Clone the repository:
 
-Init oh-my-zsh
-	
-	for rcfile in ~/.hogar/oh-my-zsh/templates/z{shenv,shrc,login,logout}; do
-  		cp -f $rcfile ~/.$rcfile:t
-	done
+        git clone https://github.com/davoclavo/.hogar.git ~/.hogar
+
+  2. Initialize the submodules:
+
+        cd ~/.hogar && git submodule update --init --recursive
+
+  3. Link Zsh configurations by linking them:
+
+		ln -s ~/.hogar/oh-my-zsh ~/.oh-my-zsh
+		for rcfile in ~/.hogar/z{shenv,shrc,login,logout}; do
+		  	ln -s $rcfile ~/.$rcfile:t
+		done
+
+  4. Set Zsh as your default shell:
+
+        chsh -s /bin/zsh
