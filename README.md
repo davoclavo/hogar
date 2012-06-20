@@ -1,0 +1,4 @@
+.hogar
+======
+
+dot file configurations
