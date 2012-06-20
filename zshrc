@@ -81,3 +81,17 @@ alias tagger="cd ~/Dev/tagger"
 alias ip="curl ifconfig.me"
 alias localip="ipconfig getifaddr en1"
 alias ips="ifconfig -a | perl -nle'/(\d+\.\d+\.\d+\.\d+)/ && print $1'"
+
+#Display CPU usage stats for commands taking more than 5s
+REPORTTIME=5
+
+insert-sudo () {
+  BUFFER="sudo $BUFFER"
+  CURSOR=$#BUFFER
+}
+zle -N insert-sudo
+bindkey '^x' insert-sudo
+
+# search on up/down arrow if a partial cmd is entered, otherwise browse history
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
