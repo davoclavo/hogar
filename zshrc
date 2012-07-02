@@ -61,9 +61,9 @@ function sourceprofile(){
 }
 
 #Python startup file
-. ~/django_env_functions.sh
+. ~/.hogar/django_env_functions.sh
 
-export PYTHONSTARTUP=$HOME/.pythonstartup
+export PYTHONSTARTUP=$HOME/.hogar/.pythonstartup
 
 function adler(){
  phantomjs --web-security=no adler.js $1;
