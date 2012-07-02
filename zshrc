@@ -95,3 +95,8 @@ bindkey '^x' insert-sudo
 # search on up/down arrow if a partial cmd is entered, otherwise browse history
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+
+# Preventivo
+alias 'rm=rm -i'
+alias 'mv=mv -i'
+alias 'cp=cp -i'
