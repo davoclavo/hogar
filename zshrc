@@ -44,7 +44,7 @@ zstyle ':omz:load' omodule \
   'osx' \
   'python' \
   'git' \
-  'syntax-highlighting' 
+  'syntax-highlighting'
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
@@ -63,7 +63,7 @@ function sourceprofile(){
 #Python startup file
 . ~/.hogar/django_env_functions.sh
 
-export PYTHONSTARTUP=$HOME/.hogar/.pythonstartup
+export PYTHONSTARTUP=$HOME/.hogar/pythonstartup
 
 function adler(){
  phantomjs --web-security=no adler.js $1;
@@ -100,3 +100,22 @@ bindkey '^[[B' down-line-or-search
 alias 'rm=rm -i'
 alias 'mv=mv -i'
 alias 'cp=cp -i'
+
+###virtualenvwrapper
+export WORKON_HOME=~/.virtualenvs
+#mkdir -p $WORKON_HOME
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+source /usr/local/bin/virtualenvwrapper.sh
+#TO-DO: find a way to apply this on .hogar http://www.doughellmann.com/docs/virtualenvwrapper/tips.html#zsh-prompt
+
+#when cd on a dir with a .venv file, load the venv with the contents of the file
+has_virtualenv() {
+    if [ -e .venv ]; then
+        workon `cat .venv`
+    fi
+}
+venv_cd () {
+    builtin cd "$@" && has_virtualenv
+}
+alias cd="venv_cd"
+###

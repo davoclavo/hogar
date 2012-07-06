@@ -1,0 +1,52 @@
+# python startup file
+
+import readline, atexit, os, rlcompleter
+
+# readline key bindings
+# Note: requires GNU readline. Use `sudo easy_install readline`
+
+#readline.parse_and_bind('\t: rl_insert')
+readline.parse_and_bind('"\e[1~": beginning-of-line')
+readline.parse_and_bind('"\e[4~": end-of-line')
+readline.parse_and_bind('"\e[5~": history-search-backward')
+readline.parse_and_bind('"\e[6~": history-search-forward')
+readline.parse_and_bind('"\e[5C": forward-word')
+readline.parse_and_bind('"\e[5D": backward-word')
+readline.parse_and_bind('"\e\e[C": forward-word')
+readline.parse_and_bind('"\e\e[D": backward-word')
+readline.parse_and_bind('tab: complete')
+readline.parse_and_bind('"\e[3~": delete-char')
+#taken from http://stackoverflow.com/questions/675370/tab-completion-in-python-interpreter-in-os-x-terminal
+#and http://code.activestate.com/recipes/496812-indentable-rlcompleter/
+
+class IrlCompleter(rlcompleter.Completer):
+        '''
+        This class enables a "tab" insertion if there's no text for
+        completion.
+
+        The default "tab" is '\t'. You can initialize with '    ' as
+        the tab if you wish to use four spaces.
+
+        '''
+
+        def __init__(self, tab='\t'):
+                self.tab = tab
+                rlcompleter.Completer.__init__(self)
+
+        def complete(self, text, state):
+                if text.lstrip() == '': return [self.tab,None][state]
+                else: return rlcompleter.Completer.complete(self,text,state)
+
+readline.set_completer(IrlCompleter('\t').complete)
+
+# history file
+
+histfile = os.path.join(os.environ['HOME'], '.pythonhistory')
+try:
+        readline.read_history_file(histfile)
+
+except IOError:
+        pass
+
+atexit.register(readline.write_history_file, histfile)
+del os, histfile, readline
