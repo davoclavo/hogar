@@ -23,4 +23,4 @@ Installation
 
   _To update submodules:_
 
-    cd ~/.hogar && git submodule update --init --recursive
+        cd ~/.hogar && git submodule update --init --recursive
