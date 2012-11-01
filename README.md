@@ -17,11 +17,10 @@ Installation
   3.  Link Zsh configurations:
 
         setopt EXTENDED_GLOB
-        ln -s ~/.hogar/prezto ~/.zprezto
-        for rcfile in ~/.zprezto/runcoms/^README.md(.N); do
-            ln -s "$rcfile" "~/.${rcfile:t}"
+        ln -s "${ZDOTDIR:-$HOME}"/.hogar/prezto "${ZDOTDIR:-$HOME}"/.zprezto
+        for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+            ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
         done
-
   4.  Set Zsh as your default shell:
 
         chsh -s /bin/zsh
