@@ -119,3 +119,8 @@ venv_cd () {
 }
 alias cd="venv_cd"
 ###
+
+### Postgres.app
+export PATH = /Applications/Postgres.app/Contents/MacOS/bin:$PATH
+# createuser -s -r postgres
+# createdb databasename
