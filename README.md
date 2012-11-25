@@ -13,6 +13,7 @@ Installation
   2.  Clone the repository and submodules:
 
         git clone --recursive https://github.com/davoclavo/.hogar.git ~/.hogar
+        git clone --recursive git:github.com:davoclavo/.hogar.git ~/.hogar
 
   3.  Link Zsh configurations:
 
