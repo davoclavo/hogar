@@ -1,0 +1,9 @@
+{
+	"default_browser": "chrome",
+	"disabled_menuitem_edit": true,
+	"disabled_menuitem_find_in_project": true,
+	"disabled_menuitem_open_in_new_window": true,
+	"disabled_menuitem_open_run": true,
+	"disabled_menuitem_paste_in_parent": true,
+	"version": "11.13.2012.1305.0"
+}
