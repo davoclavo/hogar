@@ -36,4 +36,7 @@ Sublime settings:
 
 Mac OSX
 
-    ln -s ~/.hogar/sublime-settings/* ~/Library/Application Support/Sublime Text 2/Packages
+    ln -s ~/.hogar/sublime-settings/* ~/Library/Application Support/Sublime Text 2/Packages/User
+    
+Linux
+    ln -s ~/.hogar/sublime-settings/* ~/.config/sublime-text-2/Packages/User
