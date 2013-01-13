@@ -32,3 +32,9 @@ Installation
  6. _To update submodules (later)_
 
         cd ~/.hogar && git submodule update --init --recursive
+
+Sublime settings:
+
+Mac OSX
+
+    ln -s ~/.hogar/sublime-settings/* ~/Library/Application Support/Sublime Text 2/Packages
