@@ -9,10 +9,12 @@
 		"CSS Snippets",
 		"DetectSyntax",
 		"DocBlockr",
+		"EJS",
 		"Emmet",
 		"FileDiffs",
 		"Gist",
 		"Git",
+		"Handlebars",
 		"HTML5",
 		"Http Requester",
 		"Jade",
@@ -34,6 +36,9 @@
 		"SublimeLinter",
 		"SublimeXiki",
 		"Theme - Soda",
-		"Underscore.js Snippets"
+		"Underscore.js Snippets",
+		"Vintage Surround",
+		"VintageEx",
+		"VintageLines"
 	]
 }
