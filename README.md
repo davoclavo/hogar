@@ -41,3 +41,7 @@ Mac OSX
 Linux
 
     ln -s ~/.hogar/sublime-settings/* ~/.config/sublime-text-2/Packages/
+
+Tmux settings:
+    
+    ln -s ~/.hogar/tmux.conf ~/.tmux.conf
