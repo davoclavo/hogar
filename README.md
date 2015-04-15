@@ -36,12 +36,13 @@ Sublime settings:
 
 Mac OSX
 
-    ln -s ~/.hogar/sublime-settings/* ~/Library/Application Support/Sublime Text 2/Packages/
-    
+    ln -s ~/.hogar/sublime-settings/* ~/Library/Application Support/Sublime Text 3/Packages/
+
 Linux
 
-    ln -s ~/.hogar/sublime-settings/* ~/.config/sublime-text-2/Packages/
+    ln -s ~/.hogar/sublime-settings/* ~/.config/sublime-text-3/Packages/
 
 Tmux settings:
-    
+
     ln -s ~/.hogar/tmux.conf ~/.tmux.conf
+
