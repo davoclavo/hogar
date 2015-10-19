@@ -223,17 +223,32 @@ user code."
   ;; Ruby version management for the Ruby layer
   (setq-default ruby-version-manager 'rvm)
 
+  ;; Set fixed evil indentation shift width, should be set by the major-mode
+  ;; OPEN ISSUE:
+  ;; https://github.com/syl20bnr/spacemacs/issues/3203
+  (setq evil-shift-width 2)
+
+  ;; Display magit status buffer in fullscreen
+  (setq-default git-magit-status-fullscreen t)
 )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+
+  ;; spacemacs is symlinked, so follow the link to the original file
+  (setq vc-follow-symlinks t)
+
   ;;(add-hook 'alchemist-mode-hook 'company-mode)
-  (spacemacs/toggle-line-numbers-on)
+
+  ;; Show line numbers by default
+  (global-linum-mode)
 
   ;; Relative line numbers
-  (linum-relative-on)
+  ;; https://github.com/syl20bnr/spacemacs/issues/2161
+  ;; (with-eval-after-load 'linum
+  ;;   (linum-relative-toggle))
 
   ;; Open org agenda
   (define-key global-map (kbd "C-\"") 'org-cycle-agenda-files)
