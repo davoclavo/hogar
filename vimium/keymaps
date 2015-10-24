@@ -1,0 +1,11 @@
+map h previousTab
+map l nextTab
+map <c-j> scrollPageDown
+map <c-k> scrollPageUp
+map <c-h> goBack
+map <c-l> goForward
+map <c-f> LinkHints.activateModeToOpenInNewTab
+map <c-o> Vomnibar.activateInNewTab
+
+map <c-t> Vomnibar.activateTabSelection
+map <c-p> Vomnibar.activateTabSelection
