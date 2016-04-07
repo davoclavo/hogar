@@ -27,7 +27,7 @@ values."
      emacs-lisp
      markdown
      auto-completion
-     ;; erlang
+     erlang
      elixir
      git
      github
@@ -37,20 +37,33 @@ values."
      org
      colors
      themes-megapack
-     perspectives
+     ;; perspectives
      ruby
      ruby-on-rails
      yaml
      html
+
      javascript
      react
+
      dash
-     ;; perspectives
-     eyebrowse
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom
-            shell-default-term-shell "zsh")
+     rcirc
+
+     ;; Recommended by TheBB
+     ibuffer
+     smex
+     semantic
+     ;; unimpaired
+     fasd
+     (shell :variables shell-default-shell 'eshell)
+     ranger
+     spotify
+
+     ;; eyebrowse
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom
+     ;;        shell-default-term-shell "zsh")
      ;; spell-checking
      syntax-checking
      version-control
@@ -62,6 +75,7 @@ values."
    dotspacemacs-additional-packages
    '(
      editorconfig
+     ;; symon
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -92,11 +106,11 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner nil
    ;; List of items to show in the startup buffer. If nil it is disabled.
    ;; Possible values are: `recents' `bookmarks' `projects'.
    ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
+   dotspacemacs-startup-lists '(recents bookmarks projects)
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
@@ -110,7 +124,7 @@ values."
                                :size 13
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -151,7 +165,7 @@ values."
    dotspacemacs-enable-paste-micro-state nil
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.3
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
@@ -180,7 +194,7 @@ values."
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters the
    ;; point when it reaches the top or bottom of the screen. (default t)
@@ -219,9 +233,21 @@ user code."
   ;; (setq-default dotspacemacs-configuration-layers '(
   ;;   (perspectives :variables
   ;;                 perspective-enable-persp-projectile t)))
-
+  ;;(evil-leader/set-key
+  ;;  "wf" 'toggle-frame-fullscreen)
   ;; Ruby version management for the Ruby layer
   (setq-default ruby-version-manager 'rvm)
+
+  ;; React layer
+  (setq-default
+   ;; js2-mode
+   js2-basic-offset 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
 
   ;; Set fixed evil indentation shift width, should be set by the major-mode
   ;; OPEN ISSUE:
@@ -230,6 +256,14 @@ user code."
 
   ;; Display magit status buffer in fullscreen
   (setq-default git-magit-status-fullscreen t)
+
+  (if (executable-find "trash")
+      (defun system-move-file-to-trash (file)
+        "Use `trash' to move FILE to the system trash.
+Can be installed with `brew install trash', or `brew install osxutils`''."
+        (call-process (executable-find "trash") nil 0 nil file))
+    ;; regular move to trash directory
+    (setq trash-directory "~/.Trash/emacs"))
 )
 
 (defun dotspacemacs/user-config ()
@@ -239,21 +273,43 @@ layers configuration. You are free to put any user code."
 
   ;; spacemacs is symlinked, so follow the link to the original file
   (setq vc-follow-symlinks t)
+  ;; (setq mac-system-move-file-to-trash-use-finder nil)
 
   ;;(add-hook 'alchemist-mode-hook 'company-mode)
 
+  ;; (menu-bar-mode)
+
   ;; Show line numbers by default
   (global-linum-mode)
+
+  ;; Autocompletion
+  (global-company-mode)
+
+  (require 'elixir-mode)
+  (require 'alchemist)
 
   ;; Relative line numbers
   ;; https://github.com/syl20bnr/spacemacs/issues/2161
   ;; (with-eval-after-load 'linum
   ;;   (linum-relative-toggle))
 
+  ;; React layer
+  (with-eval-after-load 'web-mode
+    (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+    (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
+
+  ;; Enable CPU and RAM toolbar
+  ;; (symon-mode)
+
   ;; Open org agenda
   (define-key global-map (kbd "C-\"") 'org-cycle-agenda-files)
   ;; Toggle term using C-'
   (define-key global-map (kbd "C-'") 'shell-pop-term)
+  ;; (define-key global-map (kbd "C-h") 'evil-window-left)
+  (global-unset-key (kbd "C-h"))
+  ;; Toggle the smex with SPC : or backspace
+  (define-key evil-motion-state-map (kbd "<backspace>") 'smex)
 
   ;; Editor Config is conf-mode by default
   (add-to-list 'auto-mode-alist '(".editorconfig" . conf-mode))
@@ -272,6 +328,24 @@ layers configuration. You are free to put any user code."
   ;; C->> `evil-shift-width'
   (add-hook 'enh-ruby-mode
             '(lambda () (setq evil-shift-width enh-ruby-indent-level)))
+  ;; from http://www.lunaryorn.com/2015/04/29/the-power-of-display-buffer-alist.html
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos (or
+                           "*rspec-compilation*"
+                           "*projectile-rails-compilation*"
+                           "*Bundler*"
+                           "*alchemist test report*"
+                           "*alchemist macroexpand*"
+                           "*alchemist mix*"
+                           "*elixir help*"
+                           "*alchemist help*"
+                           "*mix*")
+                      eos)
+                 (display-buffer-reuse-window
+                  display-buffer-in-side-window)
+                 (reusable-frames . visible)
+                 (side            . bottom)
+                 (window-height   . 0.4)))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
