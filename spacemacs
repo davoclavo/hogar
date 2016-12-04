@@ -27,27 +27,35 @@ values."
      emacs-lisp
      markdown
      auto-completion
-     erlang
+
+     javascript
+     python
+     ruby
+     ;; (ruby :variables ruby-enable-enh-ruby-mode t)
+ruby-on-rails
      elixir
+     erlang
+     elm
+     (elm :variables
+          elm-format-command "elm-format-0.17"
+          elm-sort-imports-on-save t)
+     haskell
+     scala
      git
      github
-     dash
      osx
      html
      org
      colors
-     themes-megapack
+     ;; themes-megapack
      ;; perspectives
-     ruby
-     ruby-on-rails
      yaml
-     html
 
-     javascript
      react
 
      dash
      rcirc
+     search-engine
 
      ;; Recommended by TheBB
      ibuffer
@@ -55,9 +63,11 @@ values."
      semantic
      ;; unimpaired
      fasd
-     (shell :variables shell-default-shell 'eshell)
+     ;; (shell :variables shell-default-shell 'eshell)
      ranger
      spotify
+
+     c-c++
 
      ;; eyebrowse
      ;; (shell :variables
@@ -76,6 +86,7 @@ values."
    '(
      editorconfig
      ;; symon
+     restclient
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
@@ -236,12 +247,15 @@ user code."
   ;;(evil-leader/set-key
   ;;  "wf" 'toggle-frame-fullscreen)
   ;; Ruby version management for the Ruby layer
-  (setq-default ruby-version-manager 'rvm)
+  ;; (setq-default ruby-version-manager 'rvm)
+  ;; (setq rspec-spec-command "dev run ifeweb spec")
 
   ;; React layer
   (setq-default
+   js-indent-level 2
    ;; js2-mode
    js2-basic-offset 2
+   js2-strict-missing-semi-warning nil
    ;; web-mode
    css-indent-offset 2
    web-mode-markup-indent-offset 2
@@ -288,6 +302,14 @@ layers configuration. You are free to put any user code."
   (require 'elixir-mode)
   (require 'alchemist)
 
+  ;; Org config
+  ;; (with-eval-after-load 'org
+  ;;   #+STARTUP hidestars indent
+  ;;   )
+
+  ;; Disable "smart" indent for elm-mode
+  (add-hook 'elm-mode-hook #'turn-off-elm-indent)
+
   ;; Relative line numbers
   ;; https://github.com/syl20bnr/spacemacs/issues/2161
   ;; (with-eval-after-load 'linum
@@ -302,8 +324,10 @@ layers configuration. You are free to put any user code."
   ;; Enable CPU and RAM toolbar
   ;; (symon-mode)
 
+  ;; Open iedit=mode
+  (define-key global-map (kbd "C-;") 'evil-iedit-state/iedit-mode)
   ;; Open org agenda
-  (define-key global-map (kbd "C-\"") 'org-cycle-agenda-files)
+  ;; (define-key global-map (kbd "C-\"") 'org-cycle-agenda-files)
   ;; Toggle term using C-'
   (define-key global-map (kbd "C-'") 'shell-pop-term)
   ;; (define-key global-map (kbd "C-h") 'evil-window-left)
@@ -326,8 +350,12 @@ layers configuration. You are free to put any user code."
   ;; http://stackoverflow.com/questions/8473131/set-the-evil-shift-width-to-the-buffer-local-indentation-in-emacs
   ;; https://github.com/syl20bnr/spacemacs/issues/3203
   ;; C->> `evil-shift-width'
-  (add-hook 'enh-ruby-mode
-            '(lambda () (setq evil-shift-width enh-ruby-indent-level)))
+  ;; (add-hook 'enh-ruby-mode
+  ;;           '(lambda () (setq evil-shift-width enh-ruby-indent-level)))
+
+  ;; remove trailing whitespace when saving
+  ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
   ;; from http://www.lunaryorn.com/2015/04/29/the-power-of-display-buffer-alist.html
   (add-to-list 'display-buffer-alist
                `(,(rx bos (or
@@ -346,6 +374,52 @@ layers configuration. You are free to put any user code."
                  (reusable-frames . visible)
                  (side            . bottom)
                  (window-height   . 0.4)))
+  (defengine amazon
+    "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=%s")
+
+  (defengine duckduckgo
+    "https://duckduckgo.com/?q=%s"
+    :keybinding "d")
+
+  (defengine github
+    "https://github.com/search?ref=simplesearch&q=%s")
+
+  (defengine google
+    "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s"
+    :keybinding "g")
+
+  (defengine google-images
+    "http://www.google.com/images?hl=en&source=hp&biw=1440&bih=795&gbv=2&aq=f&aqi=&aql=&oq=&q=%s")
+
+  (defengine google-maps
+    "http://maps.google.com/maps?q=%s"
+    :docstring "Mappin' it up.")
+
+  (defengine project-gutenberg
+    "http://www.gutenberg.org/ebooks/search/?query=%s")
+
+  (defengine rfcs
+    "http://pretty-rfc.herokuapp.com/search?q=%s")
+
+  (defengine stack-overflow
+    "https://stackoverflow.com/search?q=%s")
+
+  (defengine twitter
+    "https://twitter.com/search?q=%s")
+
+  (defengine wikipedia
+    "http://www.wikipedia.org/search-redirect.php?language=en&go=Go&search=%s"
+    :keybinding "w"
+    :docstring "Searchin' the wikis.")
+
+  (defengine wiktionary
+    "https://www.wikipedia.org/search-redirect.php?family=wiktionary&language=en&go=Go&search=%s")
+
+  (defengine wolfram-alpha
+    "http://www.wolframalpha.com/input/?i=%s")
+
+  (defengine youtube
+    "http://www.youtube.com/results?aq=f&oq=&search_query=%s")
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -355,7 +429,7 @@ layers configuration. You are free to put any user code."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/main.org"))))
+ '(magit-pull-arguments nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
