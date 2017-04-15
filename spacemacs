@@ -18,6 +18,8 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     vimscript
+     csv
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -27,6 +29,7 @@ values."
      emacs-lisp
      markdown
      auto-completion
+     syntax-checking
 
      javascript
      python
@@ -41,6 +44,10 @@ ruby-on-rails
           elm-sort-imports-on-save t)
      haskell
      scala
+     (scala :variables
+            scala-auto-start-nsime t
+            ;; scala-enable-eldoc t ;; Slows down the editor too much
+            scala-auto-insert-asterisk-in-comments t)
      git
      github
      osx
@@ -68,6 +75,7 @@ ruby-on-rails
      spotify
 
      c-c++
+     docker
 
      ;; eyebrowse
      ;; (shell :variables
@@ -132,7 +140,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1)
@@ -250,6 +258,9 @@ user code."
   ;; (setq-default ruby-version-manager 'rvm)
   ;; (setq rspec-spec-command "dev run ifeweb spec")
 
+  ;; Flycheck check on save
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
+
   ;; React layer
   (setq-default
    js-indent-level 2
@@ -278,6 +289,12 @@ Can be installed with `brew install trash', or `brew install osxutils`''."
         (call-process (executable-find "trash") nil 0 nil file))
     ;; regular move to trash directory
     (setq trash-directory "~/.Trash/emacs"))
+
+  ;; scalastyle
+  ;; (setq-default flycheck-scalastylerc "/usr/local/etc/scalastyle_config.xml")
+  (setq-default flycheck-scalastylerc "~/ifttt/ottter/services/.idea/scalastyle_config.xml")
+
+  ;; (setq debug-on-error t)
 )
 
 (defun dotspacemacs/user-config ()
@@ -290,6 +307,16 @@ layers configuration. You are free to put any user code."
   ;; (setq mac-system-move-file-to-trash-use-finder nil)
 
   ;;(add-hook 'alchemist-mode-hook 'company-mode)
+
+  ;; eslint
+  (add-hook 'js2-mode-hook
+            (defun my-js2-mode-setup ()
+              (flycheck-mode t)
+              (when (executable-find "eslint")
+                (flycheck-select-checker 'javascript-eslint))))
+
+  ;; highlight column 80
+  (turn-on-fci-mode)
 
   ;; (menu-bar-mode)
 
