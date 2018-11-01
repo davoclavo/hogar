@@ -3,3 +3,7 @@ set surround
 let mapleader = " "
 map <leader>d :action Debug<CR>
 map <leader>r :action Run<CR>
+
+# Sync system and vim clipboards
+set clipboard+=unnamed
+
